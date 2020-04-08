@@ -34,6 +34,6 @@ public class Weapon : MonoBehaviourPun
 	private void FireBullet(Vector3 direction)
 	{
 		var bullet = Instantiate(m_bullet, transform.position, Quaternion.identity);
-		bullet.Setup(direction, this.gameObject);
+		bullet.Setup(direction, photonView);
 	}
 }

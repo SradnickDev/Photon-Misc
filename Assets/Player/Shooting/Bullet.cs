@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
@@ -7,10 +8,12 @@ public class Bullet : MonoBehaviour
 	[SerializeField] private float m_force = 10;
 	[SerializeField] private ForceMode m_forceMode = ForceMode.Force;
 	[SerializeField] private int m_damage = 10;
-	private GameObject m_owner;
+	[SerializeField] private float m_lifeTime = 2;
+	private PhotonView m_owner;
 
-	public void Setup(Vector3 dir, GameObject from)
+	public void Setup(Vector3 dir, PhotonView from)
 	{
+		Destroy(gameObject, m_lifeTime);
 		m_owner = from;
 		transform.forward = dir;
 		m_rigidbody.AddForce(dir * m_force, m_forceMode);
@@ -18,16 +21,19 @@ public class Bullet : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.gameObject == m_owner) return;
+		if (other.gameObject == m_owner.gameObject) return;
 
-		DealDamage(other);
-		Destroy(this.gameObject);
+		if (m_owner.IsMine)
+		{
+			DealDamage(other);
+		}
+
+		Destroy(gameObject);
 	}
 
 	private void DealDamage(Component other)
 	{
 		var damageable = other.GetComponent<IDamageable>();
-
 		damageable?.ApplyDamage(m_damage);
 	}
 }

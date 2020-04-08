@@ -25,7 +25,14 @@ public class Movement : MonoBehaviourPun
 	{
 		var vertical = Input.GetAxis("Vertical");
 		var horizontal = Input.GetAxis("Horizontal");
-		m_moveDirection = new Vector3(horizontal, 0, vertical);
+
+		var dir = new Vector3(horizontal, 0, vertical);
+		if (dir.magnitude > 1)
+		{
+			dir.Normalize();
+		}
+		
+		m_moveDirection = dir;
 	}
 
 	private void Move()

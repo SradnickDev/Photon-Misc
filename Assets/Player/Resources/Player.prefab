@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 7566092630650436313}
   - component: {fileID: 1018791045811947839}
   - component: {fileID: 4816770658157994321}
-  - component: {fileID: -5857300725598924006}
+  - component: {fileID: 5255000400180865803}
+  - component: {fileID: 6052917588255332379}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -56,7 +57,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: -5857300725598924006}
+  - {fileID: 5255000400180865803}
   viewIdField: 0
   InstantiationId: 1
   isRuntimeInstantiated: 0
@@ -132,7 +133,7 @@ MonoBehaviour:
   m_bullet: {fileID: 6432319162687618824, guid: 08bc84ef00f40a348b73e36d64e93cbc,
     type: 3}
   m_fireRate: 0.25
---- !u!114 &-5857300725598924006
+--- !u!114 &5255000400180865803
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,12 +142,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 481542523045475041}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ed34fc3d30477a428f122c63dbe164c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  InterpolationBackTime: 0.1
+  ExtrapolationLimit: 0.5
+--- !u!65 &6052917588255332379
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481542523045475041}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3539191049012936322
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +170,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6406894193516342601}
   - component: {fileID: 4220017685959517700}
-  - component: {fileID: 2010541351963734309}
   - component: {fileID: 3223431152389858712}
   m_Layer: 0
   m_Name: Cube
@@ -188,19 +200,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3539191049012936322}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &2010541351963734309
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3539191049012936322}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &3223431152389858712
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -378,6 +377,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8113606015970748097}
     m_Modifications:
+    - target: {fileID: 475316535840705426, guid: 50d2a4bfdc585734081d9ea01ef8a77f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 659259581215094571, guid: 50d2a4bfdc585734081d9ea01ef8a77f,
         type: 3}
       propertyPath: m_Name
@@ -524,6 +528,11 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6855396025782705812, guid: 50d2a4bfdc585734081d9ea01ef8a77f,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 7756686467410694100, guid: 50d2a4bfdc585734081d9ea01ef8a77f,
         type: 3}
       propertyPath: m_view

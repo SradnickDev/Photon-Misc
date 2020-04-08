@@ -48,8 +48,11 @@ public class Health : MonoBehaviour, IDamageable, IPunObservable
 											 PhotonNetwork.ServerTimestamp, null);
 			ApplyDamageInternal(amount, info);
 		}
-
-		m_view.RPC(nameof(ApplyDamageInternal), m_view.Owner, amount);
+		else
+		{
+			m_view.RPC(nameof(ApplyDamageInternal), m_view.Owner, amount);	
+		}
+		
 	}
 
 	/// <summary>

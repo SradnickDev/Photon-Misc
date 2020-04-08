@@ -31,17 +31,14 @@ Reduced traffic and msg/s.
 - for use with photon authentication, so your account has to be setup properly
 - file to create a db
 - simple login demo scene
-(comming soon)
 
 #### [Basic Health & Shooting](https://github.com/SradnickDev/Photon-Misc/blob/master/Assets/Player/ "Basic Health & Shooting")
 - basic out of the box solution
-(comming soon)
 
 ####  [State Buffer](https://github.com/SradnickDev/Photon-Misc/blob/master/Assets/General/StateBuffer.cs "StateBuffer")
 - to improve synchronisation without extra dependency
 - interpolation / extrapolation
 - smooth movement
-(comming soon)
 
 #### [Data Compression/Packing](https://github.com/SradnickDev/Photon-Misc/blob/master/Assets/Utilities/Compression.cs "Data Compression/Packing")
 - vector3 down to 4 byte
