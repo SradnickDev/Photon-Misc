@@ -10,8 +10,8 @@ namespace Utilities.General
 
 		public UnityEvent Connected;
 		public bool AutoConnect = true;
-
 		public byte Version = 1;
+		[SerializeField] private GameObject m_player;
 
 		public void Start()
 		{
@@ -52,6 +52,10 @@ namespace Utilities.General
 		public override void OnJoinedRoom()
 		{
 			Connected?.Invoke();
+			if (m_player)
+			{
+				PhotonNetwork.Instantiate(m_player.name, transform.position, Quaternion.identity);
+			}
 		}
 
 		public override void OnJoinRandomFailed(short returnCode, string message)
