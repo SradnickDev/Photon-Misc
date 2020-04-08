@@ -11,7 +11,7 @@ class secure
 
     public function random_string()
     {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         $retVal = "";
         for ($i = 0; $i < 10; $i++) {
             $idx = rand(0, strlen($characters) - 1);

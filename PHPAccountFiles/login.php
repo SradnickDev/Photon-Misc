@@ -8,14 +8,17 @@ $password = ($_GET['passwordPost']);
 
 $salt = $secure->get_salt();
 
-if ($stmt = $conn->prepare("SELECT CONCAT(password,pepper) FROM accounts WHERE name=:username")) {
+if ($stmt = $conn->prepare("SELECT password,pepper FROM accounts WHERE name=:username")) {
     $stmt->bindParam(":username", $username);
     $stmt->execute();
-    $result = $stmt->fetchColumn();
+    $result = $stmt->fetchAll();
 
-$combinedPassword = $salt.$password;
+    $hash = $result[0][0];
+    $pepper = $result[0][1];
 
-    if (password_verify($combinedPassword, $result)) {
+    $combinedPassword = $salt.$password.$pepper;
+
+    if (password_verify($combinedPassword, $hash)) {
         $login_info_success = array(
             "ResultCode" => 1,
             "Message" => "Success!",
@@ -31,4 +34,3 @@ $combinedPassword = $salt.$password;
         echo $json_error;
     }
 }
- 

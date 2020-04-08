@@ -13,7 +13,7 @@ try {
     $salt = $secure->get_salt();
 
 
-    $passwordNew = password_hash($salt.$password.$pepper, PASSWORD_BCRYPT, $options);
+    $passwordNew = password_hash($salt.$password.$pepper, PASSWORD_BCRYPT);
 
     $stmt = $conn->prepare('SELECT * FROM accounts WHERE name=?');
     $stmt->bindParam(1, $username);

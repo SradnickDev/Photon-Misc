@@ -35,19 +35,42 @@ public class LoginMenu : MonoBehaviourPunCallbacks
 
 	private void Authenticate()
 	{
-		PhotonNetwork.AuthValues.AuthType = CustomAuthenticationType.Custom;
-		PhotonNetwork.AuthValues.AddAuthParameter("name", m_inputFieldName.text);
-		PhotonNetwork.AuthValues.AddAuthParameter("password", m_inputFieldPassword.text);
+		PhotonNetwork.AuthValues = new AuthenticationValues
+		{
+			AuthType = CustomAuthenticationType.Custom,
+		};
+
+		PhotonNetwork.AuthValues.AddAuthParameter("usernamePost", m_inputFieldName.text);
+		PhotonNetwork.AuthValues.AddAuthParameter("passwordPost", m_inputFieldPassword.text);
 
 		Connect();
 	}
 
-	private void Connect()
+	private void Connect() => PhotonNetwork.ConnectUsingSettings();
+
+	public override void OnConnectedToMaster()
 	{
-		PhotonNetwork.ConnectUsingSettings();
+		Debug.Log("Successful Connected and Connected to Master!");
+		Debug.Log("Joining Lobby");
+		
+		PhotonNetwork.JoinLobby();
+
+		//change scene here
 	}
 
-	public override void OnCustomAuthenticationFailed(string debugMessage) { }
+	public override void OnCustomAuthenticationFailed(string debugMessage)
+	{
+		Debug.LogWarning($"CustomAuthenticationFailed : {debugMessage}");
+		m_loginButton.interactable = true;
+	}
 
-	public override void OnCustomAuthenticationResponse(Dictionary<string, object> data) { }
+	public override void OnCustomAuthenticationResponse(Dictionary<string, object> data)
+	{
+		foreach (var entry in data)
+		{
+			Debug.LogWarning($"CustomAuthenticationResponse : {entry.Key} {entry.Value}");
+		}
+
+		m_loginButton.interactable = true;
+	}
 }

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class RegisterMenu : MonoBehaviour
@@ -6,6 +8,8 @@ public class RegisterMenu : MonoBehaviour
 	[SerializeField] private InputField m_inputFieldName = null;
 	[SerializeField] private InputField m_inputFieldPassword = null;
 	[SerializeField] private Button m_registerButton = null;
+
+	private const string RegisterUrl = "https://sradnickdev.de/photon/account/register.php";
 
 	private void Start()
 	{
@@ -27,9 +31,50 @@ public class RegisterMenu : MonoBehaviour
 		}
 
 		m_registerButton.interactable = false;
-
-		SendData();
+		StartCoroutine(SendCreateAccountRequest(m_inputFieldName.text, m_inputFieldPassword.text));
 	}
 
-	private void SendData() { }
+	private IEnumerator SendCreateAccountRequest(string username, string password)
+	{
+		var form = new WWWForm();
+		form.AddField("usernamePost", username);
+		form.AddField("passwordPost", password);
+
+		Debug.Log("wait for response");
+
+		using (var www = UnityWebRequest.Post(RegisterUrl, form))
+		{
+			yield return www.SendWebRequest();
+
+			if (www.isNetworkError || www.isHttpError)
+			{
+				Debug.LogError(www.error);
+			}
+			else
+			{
+				EvaluateResponse(www);
+			}
+		}
+
+		m_registerButton.interactable = false;
+		yield return null;
+	}
+
+	private void EvaluateResponse(UnityWebRequest www)
+	{
+		var body = www.downloadHandler.text;
+
+		switch (body)
+		{
+			case "01":
+				Debug.Log("Account created!");
+				break;
+			case "00":
+				Debug.LogWarning("Account already Exists!");
+				break;
+			default:
+				Debug.LogError($"Account creation failed : {body}");
+				break;
+		}
+	}
 }
