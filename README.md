@@ -11,10 +11,12 @@ Stuff I made and id like to share because i think it could be usefull . Also for
 - fixed team size, unlimited team count
 - equal team fill
 - room and player extension to access  the properties
+![](img/Teams.gif)
 
 #### [Property View](https://github.com/SradnickDev/Photon-Misc/tree/master/Assets/Utilities/Debug/ "Property View")
 - to easily debug clients
 - shows connection ,room, player related data
+![](img/PropertyView.gif)
 
 #### [Bulk Batch Sync](https://github.com/SradnickDev/Photon-Misc/tree/master/Assets/BulkSync/ "Bulk Batch Sync")
 I used this in a project with some constraints.
@@ -24,6 +26,7 @@ I achieved good results with 100 units and 3 player.
 Reduced traffic and msg/s.
 - basically to synchronize a lot of units
 (wip)
+![](img/BulkSync.gif)
 
 #### [Authentication(login/register)](https://github.com/SradnickDev/Photon-Misc/blob/master/Assets/Login/ "Authentication(login/register)")
 - [php code](https://github.com/SradnickDev/Photon-Misc/tree/master/PHPAccountFiles " php code") for login and registration
@@ -31,9 +34,11 @@ Reduced traffic and msg/s.
 - for use with photon authentication, so your account has to be setup properly
 - file to create a db
 - simple login demo scene
+![](img/Login.gif)
 
 #### [Basic Health & Shooting](https://github.com/SradnickDev/Photon-Misc/blob/master/Assets/Player/ "Basic Health & Shooting")
 - basic out of the box solution
+![](img/HealthNShooting.gif)
 
 ####  [State Buffer](https://github.com/SradnickDev/Photon-Misc/blob/master/Assets/General/StateBuffer.cs "StateBuffer")
 - to improve synchronisation without extra dependency
