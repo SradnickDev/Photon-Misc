@@ -8,7 +8,8 @@ namespace Utilities.General
 {
 	public class ConnectAndJoinRandom : MonoBehaviourPunCallbacks
 	{
-		public UnityEvent Connected;
+		public UnityEvent OnStart;
+		public UnityEvent JoinedRoom;
 
 		[SerializeField] private bool m_autoConnect = true;
 		[SerializeField] private byte m_version = 1;
@@ -17,6 +18,8 @@ namespace Utilities.General
 
 		public void Start()
 		{
+			OnStart?.Invoke();
+
 			if (m_autoConnect)
 			{
 				ConnectNow();
@@ -50,9 +53,14 @@ namespace Utilities.General
 			PhotonNetwork.JoinRandomRoom();
 		}
 
+		public override void OnJoinedLobby()
+		{
+			PhotonNetwork.JoinRandomRoom();
+		}
+
 		public override void OnJoinedRoom()
 		{
-			Connected?.Invoke();
+			JoinedRoom?.Invoke();
 			CreatePlayer();
 		}
 
@@ -66,8 +74,7 @@ namespace Utilities.General
 
 		public override void OnJoinRandomFailed(short returnCode, string message)
 		{
-			var uniqueRoomId = new Guid().ToString();
-			PhotonNetwork.CreateRoom(uniqueRoomId,
+			PhotonNetwork.CreateRoom(null,
 									 new RoomOptions()
 									 {
 										 MaxPlayers = m_maxPlayer, BroadcastPropsChangeToAll = true

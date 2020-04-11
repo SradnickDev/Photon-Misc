@@ -29,6 +29,7 @@ namespace Utilities.Debug
 			text += $"Region : {PhotonNetwork.CloudRegion}\n";
 			text += $"State : {PhotonNetwork.NetworkClientState}\n";
 			text += $"In Room : {PhotonNetwork.InRoom}\n";
+			text += $"Room Name : {(PhotonNetwork.CurrentRoom != null ? PhotonNetwork.CurrentRoom.Name : null )}\n";
 			text += $"Rooms : {PhotonNetwork.CountOfRooms}\n";
 			text += $"In Lobby : {PhotonNetwork.InLobby}\n";
 			text += $"Is MasterClient : {PhotonNetwork.LocalPlayer.IsMasterClient}\n";

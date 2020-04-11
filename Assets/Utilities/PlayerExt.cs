@@ -36,5 +36,19 @@ namespace Utilities
 			var targetTeam = player.GetTeam();
 			return ownTeam == targetTeam;
 		}
+
+#region PlayerReadyState
+
+		public static void SetReady(this Player player, bool value)
+		{
+			player.SetPropertyValue(PlayerProperties.Ready, value);
+		}
+
+		public static bool IsReady(this Player player)
+		{
+			return player.GetPropertyValue(PlayerProperties.Ready, false);
+		}
+
+#endregion
 	}
 }
