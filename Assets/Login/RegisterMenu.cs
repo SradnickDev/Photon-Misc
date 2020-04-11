@@ -19,11 +19,13 @@ public class RegisterMenu : MonoBehaviour
 
 	private void TryRegister()
 	{
+		//check if input is valid
 		var hasName = !string.IsNullOrEmpty(m_inputFieldName.text) &&
 					  !string.IsNullOrWhiteSpace(m_inputFieldName.text);
 		var hasPassword = !string.IsNullOrEmpty(m_inputFieldPassword.text) &&
 						  !string.IsNullOrWhiteSpace(m_inputFieldPassword.text);
 
+		//stop if input is not valid
 		if (!hasName || !hasPassword)
 		{
 			Debug.LogWarning("Please enter a valid name or password!");
@@ -31,6 +33,12 @@ public class RegisterMenu : MonoBehaviour
 		}
 
 		m_registerButton.interactable = false;
+		StartAccountCoroutine();
+	}
+
+	private void StartAccountCoroutine()
+	{
+		//send data and wait for a response
 		StartCoroutine(SendCreateAccountRequest(m_inputFieldName.text, m_inputFieldPassword.text));
 	}
 

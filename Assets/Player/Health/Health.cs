@@ -44,15 +44,15 @@ public class Health : MonoBehaviour, IDamageable, IPunObservable
 	{
 		if (m_view.IsSceneView)
 		{
+			//used to apply damage to scene objects
 			var info = new PhotonMessageInfo(PhotonNetwork.LocalPlayer,
 											 PhotonNetwork.ServerTimestamp, null);
 			ApplyDamageInternal(amount, info);
 		}
 		else
 		{
-			m_view.RPC(nameof(ApplyDamageInternal), m_view.Owner, amount);	
+			m_view.RPC(nameof(ApplyDamageInternal), m_view.Owner, amount);
 		}
-		
 	}
 
 	/// <summary>
@@ -64,11 +64,13 @@ public class Health : MonoBehaviour, IDamageable, IPunObservable
 		{
 			ApplyHealthInternal(amount);
 		}
-
-		m_view.RPC(nameof(ApplyHealthInternal), m_view.Owner, amount);
+		else
+		{
+			m_view.RPC(nameof(ApplyHealthInternal), m_view.Owner, amount);
+		}
 	}
 
-	[PunRPC]
+	[PunRPC] 
 	private void ApplyDamageInternal(float amount, PhotonMessageInfo info)
 	{
 		m_lastHit = info.Sender;
@@ -82,7 +84,7 @@ public class Health : MonoBehaviour, IDamageable, IPunObservable
 		}
 	}
 
-	[PunRPC]
+	[PunRPC] 
 	private void ApplyHealthInternal(float amount)
 	{
 		m_currentHealth = Mathf.Clamp(m_currentHealth += amount, 0, m_maxHealth);

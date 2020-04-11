@@ -18,23 +18,27 @@ public class LoginMenu : MonoBehaviourPunCallbacks
 
 	private void TryLogin()
 	{
+		//check if input is valid
 		var hasName = !string.IsNullOrEmpty(m_inputFieldName.text) &&
 					  !string.IsNullOrWhiteSpace(m_inputFieldName.text);
 		var hasPassword = !string.IsNullOrEmpty(m_inputFieldPassword.text) &&
 						  !string.IsNullOrWhiteSpace(m_inputFieldPassword.text);
 
+		//stop if input is not valid
 		if (!hasName || !hasPassword)
 		{
 			Debug.LogWarning("Please enter a valid name or password!");
 			return;
 		}
 
+		//disable interactable button so the user cant spam the login button
 		m_loginButton.interactable = false;
 		Authenticate();
 	}
 
 	private void Authenticate()
 	{
+		//set the correct data as AuthValues
 		PhotonNetwork.AuthValues = new AuthenticationValues
 		{
 			AuthType = CustomAuthenticationType.Custom,
@@ -46,20 +50,22 @@ public class LoginMenu : MonoBehaviourPunCallbacks
 		Connect();
 	}
 
+	//simply connect 
 	private void Connect() => PhotonNetwork.ConnectUsingSettings();
 
 	public override void OnConnectedToMaster()
 	{
+		//wait for callback to join a lobby
 		Debug.Log("Successful Connected and Connected to Master!");
 		Debug.Log("Joining Lobby");
 		
 		PhotonNetwork.JoinLobby();
-
-		//change scene here
+		//usually, here you can change scene to your lobby scene
 	}
 
 	public override void OnCustomAuthenticationFailed(string debugMessage)
 	{
+		//using callbacks to catch errors while auhtentication
 		Debug.LogWarning($"CustomAuthenticationFailed : {debugMessage}");
 		m_loginButton.interactable = true;
 	}

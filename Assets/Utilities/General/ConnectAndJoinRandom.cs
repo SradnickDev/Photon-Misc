@@ -1,3 +1,4 @@
+using System;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -7,30 +8,35 @@ namespace Utilities.General
 {
 	public class ConnectAndJoinRandom : MonoBehaviourPunCallbacks
 	{
-
 		public UnityEvent Connected;
-		public bool AutoConnect = true;
-		public byte Version = 1;
-		[SerializeField] private GameObject m_player;
+
+		[SerializeField] private bool m_autoConnect = true;
+		[SerializeField] private byte m_version = 1;
+		[SerializeField] private byte m_maxPlayer = 6;
+		[SerializeField] private GameObject m_player = null;
 
 		public void Start()
 		{
-			if (this.AutoConnect)
+			if (m_autoConnect)
 			{
-				this.ConnectNow();
+				ConnectNow();
 			}
 		}
 
 		public void ConnectNow()
 		{
 			PhotonNetwork.ConnectUsingSettings();
-			PhotonNetwork.GameVersion =
-				this.Version + "." + SceneManagerHelper.ActiveSceneBuildIndex;
+			PhotonNetwork.GameVersion = $"{m_version}.{SceneManagerHelper.ActiveSceneBuildIndex}";
 		}
 
 		private void OnGUI()
 		{
 			if (PhotonNetwork.IsConnected) return;
+			DrawConnectButton();
+		}
+
+		private void DrawConnectButton()
+		{
 			if (GUI.Button(new Rect((Screen.width / 2f) - 200 / 2f, (Screen.height / 2f) - 100 / 2f,
 									200, 100)
 						 , "Connect and Join"))
@@ -44,14 +50,14 @@ namespace Utilities.General
 			PhotonNetwork.JoinRandomRoom();
 		}
 
-		public override void OnJoinedLobby()
-		{
-			PhotonNetwork.JoinRandomRoom();
-		}
-
 		public override void OnJoinedRoom()
 		{
 			Connected?.Invoke();
+			CreatePlayer();
+		}
+
+		private void CreatePlayer()
+		{
 			if (m_player)
 			{
 				PhotonNetwork.Instantiate(m_player.name, transform.position, Quaternion.identity);
@@ -60,9 +66,12 @@ namespace Utilities.General
 
 		public override void OnJoinRandomFailed(short returnCode, string message)
 		{
-			PhotonNetwork.CreateRoom(null,
+			var uniqueRoomId = new Guid().ToString();
+			PhotonNetwork.CreateRoom(uniqueRoomId,
 									 new RoomOptions()
-										 {MaxPlayers = 4, BroadcastPropsChangeToAll = true}, null);
+									 {
+										 MaxPlayers = m_maxPlayer, BroadcastPropsChangeToAll = true
+									 }, null);
 		}
 	}
 }
