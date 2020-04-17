@@ -3,6 +3,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 namespace Utilities.General
 {
@@ -18,6 +19,7 @@ namespace Utilities.General
 
 		public void Start()
 		{
+			PhotonNetwork.NickName = "#" + Random.Range(0, 1000);
 			OnStart?.Invoke();
 
 			if (m_autoConnect)

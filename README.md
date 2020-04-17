@@ -56,3 +56,7 @@ Reduced traffic and msg/s.
 #### Player Spawn - Spawnpoints
 - using events to spawn player 
 (comming soon)
+
+#### [Scoreboard](Assets/Scoreboard/ "Scoreboard")
+- basic scoreboard
+![](img/Scoreboard.gif)

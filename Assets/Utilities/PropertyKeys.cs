@@ -9,5 +9,6 @@
 	{
 		public static string Team = "teamIdx";
 		public static string Ready = "rdy";
+		public static string Score = "scr";
 	}
 }
