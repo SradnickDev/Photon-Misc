@@ -53,10 +53,12 @@ Reduced traffic and msg/s.
 #### [Ready check after Scene Load](Assets/Utilities/ReadyOnSceneLoaded.cs "Ready check after Scene Load")
 - simple way to emit that one client is done with scene loading
 
-#### Player Spawn - Spawnpoints
-- using events to spawn player 
-(comming soon)
-
 #### [Scoreboard](Assets/Scoreboard/ "Scoreboard")
 - basic scoreboard
 ![](img/Scoreboard.gif)
+
+#### [RoomChat](Assets/Chat/ "RoomChat")
+- drag n drop chat only for rooms
+- send limitations, messages are queued and send periodically, prevent spamming
+- with small utility to see if you or other joined or left the room
+![](img/Chat.gif)

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 222394678730695970}
   - component: {fileID: 114095975451358116}
   m_Layer: 5
-  m_Name: Chat_Message
+  m_Name: ChatMessage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -311,8 +311,9 @@ GameObject:
   - component: {fileID: 152331375010504661}
   - component: {fileID: 152424811827295185}
   - component: {fileID: 148706804532850741}
+  - component: {fileID: 1778230103}
   m_Layer: 5
-  m_Name: Chat_Canvas
+  m_Name: RoomChatCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -433,13 +434,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366836d5a40a0614b8afdc3df35c0964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MessagePrefab: {fileID: 114095975451358116, guid: 183b08d2a2e0a9b4a85f22ba80a0a51c,
+  m_sendKey: 13
+  m_message: {fileID: 114095975451358116, guid: 183b08d2a2e0a9b4a85f22ba80a0a51c,
     type: 3}
-  ChatContent: {fileID: 41707749811717823}
-  MessageInput: {fileID: 152634841284113789}
-  PhotonView: {fileID: 152424811827295185}
-  Chat: {fileID: 255500572804515617}
-  MessagesInQueue: 0
+  m_content: {fileID: 41707749811717823}
+  m_messageInput: {fileID: 152634841284113789}
+  SendRate: 1
+  QueueCapacity: 10
+--- !u!114 &1778230103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256254449974897761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7607bd0bd5e3f54469426f2854524106, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_roomChat: {fileID: 148706804532850741}
 --- !u!1 &256279426551405457
 GameObject:
   m_ObjectHideFlags: 0
@@ -664,9 +678,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 41881436945861403}
-  - component: {fileID: 152304025313560079}
   - component: {fileID: 44790185338739995}
-  - component: {fileID: 148767785419781199}
+  - component: {fileID: 8940048839060133162}
+  - component: {fileID: 2158074607790349321}
   m_Layer: 5
   m_Name: Viewport
   m_TagString: Untagged
@@ -694,19 +708,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &152304025313560079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 256439379696024341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 0
 --- !u!222 &44790185338739995
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -715,7 +716,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 256439379696024341}
   m_CullTransparentMesh: 0
---- !u!114 &148767785419781199
+--- !u!114 &8940048839060133162
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -733,8 +734,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -743,6 +744,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2158074607790349321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256439379696024341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 0
 --- !u!1 &1425123445216561194
 GameObject:
   m_ObjectHideFlags: 0

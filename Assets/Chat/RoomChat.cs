@@ -10,23 +10,26 @@ using UnityEngine.UI;
 namespace Chat
 {
 	[RequireComponent(typeof(PhotonView))]
-	public class InGameChat : MonoBehaviourPunCallbacks
+	public class RoomChat : MonoBehaviourPunCallbacks, IPointerDownHandler
 	{
+		[SerializeField] private KeyCode m_sendKey = KeyCode.Return;
 		[SerializeField] private Text m_message = null;
 		[SerializeField] private Transform m_content = null;
 		[SerializeField] private InputField m_messageInput = null;
-		[SerializeField] private GameObject m_chat = null;
 
 		private Queue<string> m_messageQueue = new Queue<string>();
 		private StringBuilder m_messageBuilder = new StringBuilder();
 
 #region Message Limits
 
+		[Header("Send Limitations")]
+
 		//messages will be send every n seconds
-		private const double SendTimeLimit = 1;
+		[SerializeField]
+		private double SendRate = 1;
 
 		//max capacity of the queue
-		private const int QueueLimit = 10;
+		[SerializeField] private int QueueCapacity = 10;
 
 		private bool m_canSend = true;
 		private double m_nextSendingTime;
@@ -36,15 +39,15 @@ namespace Chat
 		private void Start()
 		{
 			m_messageInput.text = string.Empty;
-			m_messageInput.gameObject.SetActive(false);
+			m_messageInput.interactable = false;
 		}
 
 		private void Update() => PlayerInput();
 
 		private void PlayerInput()
 		{
-			if (!Input.GetKeyDown(KeyCode.Return)) return;
-			if (m_chat.gameObject.activeInHierarchy)
+			if (!Input.GetKeyDown(m_sendKey)) return;
+			if (m_messageInput.IsInteractable())
 			{
 				SendAndClose();
 			}
@@ -56,7 +59,7 @@ namespace Chat
 
 		private void Open()
 		{
-			m_messageInput.gameObject.SetActive(true);
+			m_messageInput.interactable = true;
 
 			//set focus
 			EventSystem.current.SetSelectedGameObject(m_messageInput.gameObject);
@@ -75,7 +78,7 @@ namespace Chat
 
 			//deselect the InputField
 			EventSystem.current.SetSelectedGameObject(null);
-			m_messageInput.gameObject.SetActive(false);
+			m_messageInput.interactable = false;
 		}
 
 		private void SendMessage()
@@ -98,12 +101,12 @@ namespace Chat
 
 		/// <summary>
 		/// Enqueue all Messages.
-		/// If Message Queue is full stops adding and ignores Messages.
+		/// If Message Queue is full stop adding and ignore Messages.
 		/// </summary>
 		/// <param name="msg">Message to Send.</param>
 		private void HandleQueueLimit(string msg)
 		{
-			if (m_messageQueue.Count < QueueLimit)
+			if (m_messageQueue.Count < QueueCapacity)
 			{
 				m_messageQueue.Enqueue(msg);
 			}
@@ -123,26 +126,31 @@ namespace Chat
 		private IEnumerator HandleMessageLimit(double delay)
 		{
 			m_canSend = false;
-			m_nextSendingTime = Time.time + SendTimeLimit + delay;
+			m_nextSendingTime = Time.time + SendRate + delay;
 			yield return new WaitForSeconds((float) delay);
 
 			while (m_messageQueue.Count > 0)
 			{
-				m_messageBuilder.Append(m_messageQueue.Dequeue());
-				m_messageBuilder.Append("\n");
+				var msg = m_messageQueue.Dequeue();
+				m_messageBuilder.Append(msg);
+				if (m_messageQueue.Count > 0)
+				{
+					m_messageBuilder.Append("\n");
+				}
 			}
 
 			photonView.RPC(nameof(SendMessage), RpcTarget.All, m_messageBuilder.ToString());
+			m_messageBuilder.Clear();
 			m_canSend = true;
 		}
 
-		[PunRPC]
+		[PunRPC] 
 		private void SendMessage(string text, PhotonMessageInfo info)
 		{
-			CreateMessage(text, info.Sender);
+			CreateLocalMessage(text, info.Sender);
 		}
 
-		private void CreateMessage(string text, Player sender)
+		private void CreateLocalMessage(string text, Player sender)
 		{
 			var senderName = FormatName(sender);
 			var messageText = Instantiate(m_message, m_content, false);
@@ -150,7 +158,7 @@ namespace Chat
 			messageText.text = senderName + " : " + text;
 		}
 
-		private void CreateMessage(string text)
+		public void CreateLocalMessage(string text)
 		{
 			var messageText = Instantiate(m_message, m_content, false);
 
@@ -174,20 +182,12 @@ namespace Chat
 			return name;
 		}
 
-#region PhotonCallback
-
-		public override void OnPlayerEnteredRoom(Player newPlayer)
+		public void OnPointerDown(PointerEventData eventData)
 		{
-			var colorCode = ColorUtility.ToHtmlStringRGB(Color.blue);
-			CreateMessage($"<color=#{colorCode}>{newPlayer.NickName} joined the Game. </color>");
+			if (!m_messageInput.IsInteractable())
+			{
+				Open();
+			}
 		}
-
-		public override void OnPlayerLeftRoom(Player otherPlayer)
-		{
-			var colorCode = ColorUtility.ToHtmlStringRGB(new Color(1f, 0.5f, 0f));
-			CreateMessage($"<color=#{colorCode}>{otherPlayer.NickName} left the Game.</color>");
-		}
-
-#endregion
 	}
 }
