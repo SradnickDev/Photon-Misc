@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(RoomChat))]
 public class RoomChatUtility : MonoBehaviourPunCallbacks
 {
-	[SerializeField] private RoomChat m_roomChat;
+	[SerializeField] private RoomChat m_roomChat = null;
 
 	public override void OnJoinedRoom()
 	{
